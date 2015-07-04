@@ -32,13 +32,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.shapeBox1 = new System.Windows.Forms.ComboBox();
-            this.speedUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.colorButton = new System.Windows.Forms.Button();
             this.addShapeButton = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.threadLabel = new System.Windows.Forms.Label();
             this.pauseButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.speedUpDown1)).BeginInit();
+            this.speedBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,23 +82,6 @@
             this.shapeBox1.TabIndex = 4;
             this.shapeBox1.Text = "Rectangle";
             // 
-            // speedUpDown1
-            // 
-            this.speedUpDown1.Location = new System.Drawing.Point(231, 51);
-            this.speedUpDown1.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.speedUpDown1.Name = "speedUpDown1";
-            this.speedUpDown1.Size = new System.Drawing.Size(120, 22);
-            this.speedUpDown1.TabIndex = 5;
-            this.speedUpDown1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // colorButton
             // 
             this.colorButton.Location = new System.Drawing.Point(385, 19);
@@ -139,23 +121,40 @@
             // pauseButton
             // 
             this.pauseButton.Location = new System.Drawing.Point(12, 15);
-          //  this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Name = "pauseButton";
             this.pauseButton.Size = new System.Drawing.Size(75, 23);
             this.pauseButton.TabIndex = 10;
             this.pauseButton.Text = "Pause";
             this.pauseButton.UseVisualStyleBackColor = true;
+            // 
+            // speedBox1
+            // 
+            this.speedBox1.FormattingEnabled = true;
+            this.speedBox1.Items.AddRange(new object[] {
+            "5",
+            "10",
+            "20",
+            "30",
+            "50",
+            "100"});
+            this.speedBox1.Location = new System.Drawing.Point(230, 57);
+            this.speedBox1.Name = "speedBox1";
+            this.speedBox1.Size = new System.Drawing.Size(121, 24);
+            this.speedBox1.TabIndex = 11;
+            this.speedBox1.Text = "5";
+            this.speedBox1.SelectedIndexChanged += new System.EventHandler(this.speedBox1_SelectedIndexChanged);
             // 
             // MultiThread
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(500, 600);
+            this.Controls.Add(this.speedBox1);
             this.Controls.Add(this.pauseButton);
             this.Controls.Add(this.threadLabel);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.addShapeButton);
             this.Controls.Add(this.colorButton);
-            this.Controls.Add(this.speedUpDown1);
             this.Controls.Add(this.shapeBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -163,7 +162,6 @@
             this.Name = "MultiThread";
             this.Text = "Multi Thread Program";
             this.Load += new System.EventHandler(this.MultiThread_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.speedUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -176,12 +174,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox shapeBox1;
-        private System.Windows.Forms.NumericUpDown speedUpDown1;
         private System.Windows.Forms.Button colorButton;
         private System.Windows.Forms.Button addShapeButton;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label threadLabel;
         private System.Windows.Forms.Button pauseButton;
+        private System.Windows.Forms.ComboBox speedBox1;
     }
 }
 

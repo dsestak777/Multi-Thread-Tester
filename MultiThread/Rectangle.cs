@@ -31,30 +31,34 @@ namespace MultiThread
 
         public override void paint(System.Drawing.Graphics g)
         {
-          //  threadName = Thread.CurrentThread.Name;
+            threadName = Thread.CurrentThread.Name;
 
           
             try
+
             {
+
+              
                 //sleep thread based upon chosen speed
                 Thread.Sleep(speed);
 
                 //draw over object on screen in white
                 g.DrawRectangle(new Pen(Color.White), xLoc, yLoc, width, height);
                 
+                
                 //lock thread to update location
                 lock (typeof(Thread))
                 {
-
-                        xLoc = xLoc + directionX;
-                        yLoc = yLoc + directionY;
+                        xLoc = xLoc + base.directionX;
+                        yLoc = yLoc + base.directionY;
                         //check if it hits the edges of the screen
-                        checkEdgeCollision();
+                        base.checkEdgeCollision();
                   
                 }
+                
 
                 //draw object in new location
-                g.DrawRectangle(new Pen(color), xLoc, yLoc, width, height);
+                 g.DrawRectangle(new Pen(color), xLoc, yLoc, width, height);
 
         
             }

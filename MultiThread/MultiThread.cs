@@ -19,12 +19,12 @@ namespace MultiThread
         private static bool pause = false;
         private String tLabel = "Thread Count = ";
         private static int threadKey = 0; //thread counter
-        private int selectedSpeed = 1; //default speed
+        private int selectedSpeed = 94; //default speed absolute val of (5-99)
         private String selectedShape = "Rectangle"; //default shape
         private Hashtable threadHolder = new Hashtable();
         public ColorDialog colorDialog;
         public Color selectedColor = Color.Blue;  //default shape color
-        private List<Shapes> s = new List<Shapes>();
+      
 
         public MultiThread()
         {
@@ -37,8 +37,6 @@ namespace MultiThread
             exitButton.Click += new EventHandler(exitButton_Click);
             colorButton.Click += new EventHandler(colorButton_Click);
             addShapeButton.Click += new EventHandler(addShapeButton_Click);
-         //   pictureBox1.Paint += new PaintEventHandler(pictureBox1_Paint);
-            speedUpDown1.ValueChanged += new EventHandler(speedUpDown1_ValueChanged);
             shapeBox1.SelectedIndexChanged += new EventHandler(shapeBox1_SelectedIndexChanged);
             threadLabel.TextChanged += new EventHandler(threadLabel_TextChanged);
 
@@ -46,141 +44,65 @@ namespace MultiThread
         
         }
 
-       
+
 
         private void StartThread()
         {
             //local shape
             Shapes shape;
 
-          
-           
+
+
             //check shape selection
             if (selectedShape == "Rectangle")
             {
                 //create rectangle object
                 shape = new Rectangle(0, 0, 20, 20, selectedColor, this, selectedSpeed);
 
-                s.Add(shape);
 
-                //draw object
-                while (true)
-                {
-                    shape.paint(g);
-
-                    lock (this)
-                    {
-
-                        while (pause)
-                        {
-                            Monitor.Wait(this);  // loop until not suspended
-                        }
-
-                    }
-
-                }
-
-
-
-            } else if (selectedShape == "Circle") {
-
+            }
+            else if (selectedShape == "Circle")
+            {
+                //create a circle object
                 shape = new Circle(0, 0, 20, 20, selectedColor, this, selectedSpeed);
 
-              
-
-                while (true)
-                {
-                    shape.paint(g);
-                    lock (this)
-                    {
-
-                        while (pause)
-                        {
-                            Monitor.Wait(this);  // loop until not suspended
-                        }
-
-                    }
-                }
 
             }
             else if (selectedShape == "Triangle")
             {
-
+                //create a triangle object
                 shape = new Triangle(0, 0, 20, 20, selectedColor, this, selectedSpeed);
 
-               
-
-                while (true)
-                {
-                    shape.paint(g);
-                    lock (this)
-                    {
-
-                        while (pause)
-                        {
-                            Monitor.Wait(this);  // loop until not suspended
-                        }
-
-                    }
-                }
 
             }
 
-            else 
+            else
             {
-
+                //create a Mickey Object
                 shape = new Mickey(0, 0, 15, 15, selectedColor, this, selectedSpeed);
 
 
+            }
 
-                while (true)
+
+            //draw object loop
+            while (true)
+            {
+
+                //draw all objects calling shape class paint function
+                shape.paint(g);
+
+                lock (this)
                 {
-                    shape.paint(g);
-                    lock (this)
+                    //if paused put all threads into waiting state
+                    while (pause)
                     {
-
-                        while (pause)
-                        {
-                            Monitor.Wait(this);  // loop until not suspended
-                        }
-
+                        Monitor.Wait(this);  // loop until not suspended
                     }
+
                 }
 
             }
-        }
-
-
-        private bool checkOverlap()
-        {
-
-            for (int i = 0; i < s.Count; i++)
-            {
-                int x1 = s[i].XLoc;
-                int y1 = s[i].YLoc;
-                int width1 = s[i].Width;
-                int height1 = s[i].Height;
-
-                for (int j = 0; j < s.Count; j++)
-                {
-                    int x2 = s[j].XLoc;
-                    int y2 = s[j].YLoc;
-                    int width2 = s[j].Width;
-                    int height2 = s[j].Height;
-
-                    if (i != j)
-                    {
-                        if (Math.Abs(x1 - x2) * 2 <= (width1 + width2) &&
-                            (Math.Abs(y1 - y2) * 2 <= (height1 + height2))) {
-
-                                return true;
-                            }
-                    }
-                }                    
-            
-            }
-            return false;
-
         }
 
       
@@ -192,26 +114,31 @@ namespace MultiThread
 
         private void threadLabel_TextChanged(object sender, EventArgs e)
         {
-
+            //thread count label text
             threadLabel.Text = String.Format("Thread Count = " + threadKey);
         }
 
         private void pauseButton_Click(object sender, EventArgs e) {
 
+            
             if (pause == false)
             {
+                //if not paused set to pause
                 pause = true;
+                //change button text
                 pauseButton.Text = "Resume";
             }
             else
             {
+                //if paused set to unpaused
                 pause = false;
+                //change button text
                 pauseButton.Text = "Pause";
             }
 
             lock (this)
             {
-
+                //if not paused wake up all the threads 
                 if (!pause)
                 {
                     Monitor.PulseAll(this);
@@ -242,6 +169,7 @@ namespace MultiThread
         }
         private void colorButton_Click(object sender, EventArgs e)
         {
+            //create color chooser dialog
             colorDialog = new ColorDialog();
             colorDialog.ShowDialog();
             selectedColor = colorDialog.Color;
@@ -258,22 +186,26 @@ namespace MultiThread
             threadHolder.Add(threadKey,thread);
             thread.Start();
 
-
+            //set  thread count label text
             threadLabel.Text = String.Format(tLabel + threadKey);
-           // threadLabel.Invalidate();
-           // threadLabel.Update(); 
+           
         }
 
-        private void speedUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-            selectedSpeed = Convert.ToInt32(speedUpDown1.Text.Trim());
-
-        }
 
         private void shapeBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //get selected shape from combo box
             selectedShape = shapeBox1.Text.Trim();
+        }
+
+        private void speedBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            /** get selected speed from combo box
+             * note: I used a combo box to highlight speed differences better
+             **/
+            selectedSpeed = Convert.ToInt32(speedBox1.Text.Trim());
+            // make 100 fastest 1 slowest
+            selectedSpeed = (Math.Abs(selectedSpeed - 99));  //note use 99 to avoid a 0 value 
         }
 
        

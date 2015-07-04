@@ -29,20 +29,26 @@ namespace MultiThread
         //check if an object has hit the edge of the screen
         public void checkEdgeCollision()
         {
+            //set form width and height
             int formHeight = multiThread.Size.Height - 240;// adjust for gui 
             int formWidth = multiThread.Size.Width - 30; // adjust for border
+            
+            //check if object location exceeds y boundaries
             if (yLoc >= formHeight || yLoc <=0) {
                 //reverse direction
-                directionY = -directionY;
+                directionY = (-1) * directionY;
             }
+            //check if object location exceeds x boundaries
             if (xLoc >= formWidth || xLoc <= 0)
             {
                 //reverse direction
-                directionX = -directionX;
+                directionX = (-1) * directionX;
             }
 
         }
 
+
+        //getters and setters
         public int XLoc
         {
             get{
